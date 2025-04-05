@@ -12,19 +12,18 @@
     <div id="map" style="height: 600px;"></div>
 
     <script>
-        // Creiamo la mappa
-        var map = L.map('map').setView([41.9028, 12.4964], 6); // Inizia con la vista sull'Italia
+        // Crea la mappa centrata su un punto iniziale
+        var map = L.map('map').setView([41.9028, 12.4964], 6); // Italia
 
-        // Aggiungiamo il layer di OpenStreetMap
+        // Aggiungi il layer di OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Carichiamo i dati
+        // Carica i dati dalla Google Sheet
         fetchData();
     </script>
 </body>
 </html>
-            
-      
+
 
