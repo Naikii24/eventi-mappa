@@ -1,21 +1,10 @@
-// Inizializza la mappa
-var map = L.map('map').setView([41.9028, 12.4964], 6); // Italia (Latitudine e Longitudine)
-
-// Aggiungi la mappa di base
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
-
-// Funzione per ottenere i dati CSV
 function fetchData() {
     var url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsC2LtvXVVBz1ffZqYpSXEUwb2z_27GF0zYLZkABhhcmBHQ8U0axgwoELKeUcGSAZhdWbKopHdvvnA/pub?output=csv';
 
     fetch(url)
         .then(response => response.text())
         .then(csvText => {
-            // Converti CSV in array di oggetti
             var data = csvToArray(csvText);
-            
             data.forEach(entry => {
                 var name = entry["Nome Evento"];
                 var address = entry["Indirizzo"];
@@ -39,11 +28,22 @@ function fetchData() {
                     .bindPopup(popupContent);
             });
         })
-    .catch(err => console.error("Errore nel caricamento dei dati:", err));
-
-            // Aggiungi un marker per ogni evento
-            L.marker([lat, lng]).addTo(map)
-                .bindPopup(`<b>${nome}</b><br>${desc}<br><a href='${link}' target='_blank'>Biglietti</a>`);
+        .catch(error => {
+            console.error('Errore nel caricamento dei dati: ', error);
+            alert('Errore nel caricamento dei dati. Controlla la console per maggiori dettagli.');
         });
-    })
-    .catch(err => console.error("Errore nel caricamento dei dati:", err));
+}
+
+function csvToArray(csvText) {
+    var rows = csvText.split('\n');
+    var headers = rows[0].split(',');
+
+    return rows.slice(1).map(function(row) {
+        var values = row.split(',');
+        var obj = {};
+        headers.forEach(function(header, i) {
+            obj[header.trim()] = values[i]?.trim(); // Aggiungi ? per evitare errori in caso di valori mancanti
+        });
+        return obj;
+    });
+}
