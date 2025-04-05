@@ -1,3 +1,50 @@
+function fetchData() {
+    var url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsC2LtvXVVBz1ffZqYpSXEUwb2z_27GF0zYLZkABhhcmBHQ8U0axgwoELKeUcGSAZhdWbKopHdvvnA/pub?output=csv'; // URL del CSV
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Errore di rete: ' + response.status);
+            }
+            return response.text();  // Ottieni il contenuto in formato testo
+        })
+        .then(csvText => {
+            var data = csvToArray(csvText);  // Converte il CSV in un array di oggetti
+            console.log(data);  // Stampa i dati per il debug
+
+            data.forEach(entry => {
+                var name = entry["Nome Evento"];
+                var address = entry["Indirizzo"];
+                var lat = parseFloat(entry["Latitudine"]);
+                var lon = parseFloat(entry["Longitudine"]);
+                var description = entry["Descrizione"];
+                var ticketLink = entry["Link Biglietti"];
+                var eventDate = entry["Data Evento"];
+
+                // Controlla se le coordinate sono valide
+                if (!isNaN(lat) && !isNaN(lon)) {
+                    var popupContent = `
+                        <strong>${name}</strong><br>
+                        <em>${address}</em><br>
+                        <strong>Data evento:</strong> ${eventDate}<br>
+                        <strong>Descrizione:</strong> ${description}<br>
+                        <a href="${ticketLink}" target="_blank">Acquista i biglietti</a>
+                    `;
+                    
+                    var marker = L.marker([lat, lon]).addTo(map)
+                        .bindPopup(popupContent);
+                } else {
+                    console.error('Coordinate non valide per l\'evento:', name);
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Errore nel caricamento dei dati: ', error);
+            alert('Errore nel caricamento dei dati. Controlla la console per maggiori dettagli.');
+        });
+}
+
+
 // Funzione per caricare i dati CSV
 function fetchData() {
     var url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsC2LtvXVVBz1ffZqYpSXEUwb2z_27GF0zYLZkABhhcmBHQ8U0axgwoELKeUcGSAZhdWbKopHdvvnA/pub?output=csv'; // Usa il tuo link qui
