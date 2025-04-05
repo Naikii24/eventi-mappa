@@ -1,4 +1,4 @@
-fetch("https://docs.google.com/spreadsheets/d/https://docs.google.com/spreadsheets/d/1sz5yRujumvBDYH6qGjKUhJ0Q2vBbQe1aZB4pUZg-oSE/edit?usp=sharing/gviz/tq?tqx=out:json")
+fetch("https://docs.google.com/spreadsheets/d/1sz5yRujumvBDYH6qGjKUhJ0Q2vBbQe1aZB4pUZg-oSE/gviz/tq?tqx=out:json")
     .then(res => res.text())
     .then(data => {
         let json = JSON.parse(data.substr(47).slice(0, -2));
