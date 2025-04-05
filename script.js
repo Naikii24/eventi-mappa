@@ -19,30 +19,37 @@ function fetchData() {
             data.forEach(entry => {
                 var name = entry["Nome Evento"];
                 var address = entry["Indirizzo"];
-                var lat = parseFloat(entry["Latitudine"]);
-                var lon = parseFloat(entry["Longitudine"]);
+                var place = entry["Nome del Luogo"];
                 var description = entry["Descrizione"];
                 var ticketLink = entry["Link Biglietti"];
                 var eventDate = entry["Data Evento"];
 
-                // Controlla se le coordinate sono valide (latitudine e longitudine)
-                if (!isNaN(lat) && !isNaN(lon)) {
-                    // Crea il contenuto del popup con le informazioni dell'evento
-                    var popupContent = `
-                        <strong>${name}</strong><br>
-                        <em>${address}</em><br>
-                        <strong>Data evento:</strong> ${eventDate}<br>
-                        <strong>Descrizione:</strong> ${description}<br>
-                        <a href="${ticketLink}" target="_blank">Acquista i biglietti</a>
-                    `;
-                    
-                    // Crea un marker sulla mappa con le coordinate valide
-                    var marker = L.marker([lat, lon]).addTo(map)
-                        .bindPopup(popupContent);
-                } else {
-                    // Se le coordinate non sono valide, logga un errore
-                    console.error('Coordinate non valide per l\'evento:', name);
-                }
+                // Chiama la funzione per ottenere le coordinate dal nome del luogo
+                getCoordinates(place)
+                    .then(coords => {
+                        if (coords) {
+                            var lat = coords.lat;
+                            var lon = coords.lon;
+                            
+                            // Crea il contenuto del popup con le informazioni dell'evento
+                            var popupContent = `
+                                <strong>${name}</strong><br>
+                                <em>${address}</em><br>
+                                <strong>Data evento:</strong> ${eventDate}<br>
+                                <strong>Descrizione:</strong> ${description}<br>
+                                <a href="${ticketLink}" target="_blank">Acquista i biglietti</a>
+                            `;
+                            
+                            // Crea un marker sulla mappa
+                            var marker = L.marker([lat, lon]).addTo(map)
+                                .bindPopup(popupContent);
+                        } else {
+                            console.error('Coordinate non trovate per l\'evento:', name);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Errore nel geocoding: ', error);
+                    });
             });
         })
         .catch(error => {
@@ -70,6 +77,30 @@ function csvToArray(csvText) {
         result.push(obj);
     }
     return result;
+}
+
+// Funzione per ottenere le coordinate tramite Geocoding (Nominatim API)
+function getCoordinates(place) {
+    return new Promise((resolve, reject) => {
+        var geocodeUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`;
+        
+        fetch(geocodeUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    // Restituisce le prime coordinate trovate
+                    resolve({
+                        lat: parseFloat(data[0].lat),
+                        lon: parseFloat(data[0].lon)
+                    });
+                } else {
+                    reject('Luogo non trovato');
+                }
+            })
+            .catch(error => {
+                reject(error);
+            });
+    });
 }
 
 // Creazione della mappa
