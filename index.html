@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mappa degli Eventi</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="script.js"></script>
+    <title>Mappa Eventi</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 </head>
 <body>
-    <div id="map" style="height: 600px;"></div>
 
-    <script>
-        // Crea la mappa centrata su un punto iniziale
-        var map = L.map('map').setView([41.9028, 12.4964], 6); // Italia
+    <h1>Eventi sulla Mappa</h1>
+    
+    <div id="map"></div>
 
-        // Aggiungi il layer di OpenStreetMap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Carica i dati dalla Google Sheet
-        fetchData();
-    </script>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <!-- Script JS -->
+    <script src="script.js"></script>
+    
 </body>
 </html>
-
-
