@@ -8,9 +8,17 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Carica gli eventi da Google Sheets
 fetch("https://docs.google.com/spreadsheets/d/1sz5yRujumvBDYH6qGjKUhJ0Q2vBbQe1aZB4pUZg-oSE/gviz/tq?tqx=out:json")
-    .then(res => res.text())
+    .then(response => {
+        // Controlliamo che la risposta sia ok
+        if (!response.ok) {
+            throw new Error("Errore nel caricamento dei dati da Google Sheets");
+        }
+        return response.text();
+    })
     .then(data => {
+        // A questo punto, i dati sono stati ricevuti correttamente
         let json = JSON.parse(data.substr(47).slice(0, -2));
+        // Ciclo attraverso i dati
         json.table.rows.forEach(row => {
             let nome = row.c[0].v;
             let lat = parseFloat(row.c[1].v);
@@ -23,4 +31,4 @@ fetch("https://docs.google.com/spreadsheets/d/1sz5yRujumvBDYH6qGjKUhJ0Q2vBbQe1aZ
                 .bindPopup(`<b>${nome}</b><br>${desc}<br><a href='${link}' target='_blank'>Biglietti</a>`);
         });
     })
-    .catch(err => console.error('Errore nel caricamento dei dati:', err));
+    .catch(err => console.error("Errore nel caricamento dei dati:", err));
