@@ -19,7 +19,7 @@
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        // Inizializza la mappa con le coordinate di Roma (41.9028, 12.4964)
+        // Inizializza la mappa
         var map = L.map('map').setView([41.9028, 12.4964], 6); // Italia
 
         // Aggiungi il layer di OpenStreetMap
@@ -27,12 +27,6 @@
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Aggiungi un marker a Roma
-        var marker = L.marker([41.9028, 12.4964]).addTo(map);
-        
-        // Associa una finestra pop-up al marker
-        marker.bindPopup("Benvenuto a Roma!");
-    </script>
-
-</body>
-</html>
+        // Funzione per ottenere i dati dal Google Sheets
+        function fetchData() {
+            var sheet
