@@ -10,31 +10,22 @@
             width: 100%;
             height: 500px;
         }
-        #events-container {
-            padding: 20px;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
 
     <h1>Eventi in Mappa</h1>
     <div id="map"></div>
-    <div id="events-container">
-        <h2>Eventi della Settimana</h2>
-        <ul id="events-list"></ul>
-    </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        // Inizializza la mappa
+        // Inizializza la mappa con una posizione di default
         var map = L.map('map').setView([41.9028, 12.4964], 6); // Italia
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
+    </script>
 
-        // Funzione per caricare eventi da Google Sheets
-        fetch("https://docs.google.com/spreadsheets/d/1sz5yRujumvBDYH6qGjKUhJ0Q2vBbQe1aZB4pUZg-oSE/gviz/tq?tqx=out:json")
-            .
-
+</body>
+</html>
