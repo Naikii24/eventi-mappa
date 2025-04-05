@@ -1,10 +1,3 @@
-// Inizializza la mappa
-var map = L.map('map').setView([41.9028, 12.4964], 6); // Italia
-
-// Aggiungi la mappa di base
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
 
 fetch("https://docs.google.com/spreadsheets/d/https://docs.google.com/spreadsheets/d/1sz5yRujumvBDYH6qGjKUhJ0Q2vBbQe1aZB4pUZg-oSE/edit?usp=sharing/gviz/tq?tqx=out:json")
     .then(res => res.text())
