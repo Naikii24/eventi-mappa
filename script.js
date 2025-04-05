@@ -1,3 +1,11 @@
+// Inizializza la mappa
+var map = L.map('map').setView([41.9028, 12.4964], 6); // Italia (Latitudine e Longitudine)
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// Carica gli eventi da Google Sheets
 fetch("https://docs.google.com/spreadsheets/d/1sz5yRujumvBDYH6qGjKUhJ0Q2vBbQe1aZB4pUZg-oSE/gviz/tq?tqx=out:json")
     .then(res => res.text())
     .then(data => {
@@ -13,3 +21,4 @@ fetch("https://docs.google.com/spreadsheets/d/1sz5yRujumvBDYH6qGjKUhJ0Q2vBbQe1aZ
                 .bindPopup(`<b>${nome}</b><br>${desc}<br><a href='${link}' target='_blank'>Biglietti</a>`);
         });
     });
+    .catch(err => console.error('Errore nel caricamento dei dati:', err));
