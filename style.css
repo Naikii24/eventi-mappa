@@ -2,10 +2,11 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
 }
+/* Stili per la mappa */
 #map {
-    height: 500px;
-    width: 80%;
-    margin: auto;
+    height: 100vh;
+    width: 75%;
+    float: left;
 }
 /* Stili per la lista degli eventi */
 #event-list {
