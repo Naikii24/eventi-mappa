@@ -1,52 +1,20 @@
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
     text-align: center;
 }
-/* Stili per la mappa */
+
+h1 {
+    background: #0077cc;
+    color: white;
+    padding: 15px;
+}
+
 #map {
-    height: 100vh;
-    width: 75%;
-    float: left;
-}
-/* Stili per la lista degli eventi */
-#event-list {
-    width: 25%;
-    float: right;
-    padding: 20px;
-    background-color: #f4f4f4;
-    border-left: 2px solid #ccc;
-    max-height: 100vh;
-    overflow-y: auto;
-}
-
-#event-list h2 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-}
-
-#events-container {
-    list-style-type: none;
-    padding: 0;
-}
-
-#events-container li {
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-}
-
-#events-container li:hover {
-    background-color: #f0f0f0;
-}
-
-#events-container li a {
-    text-decoration: none;
-    color: #007bff;
-}
-
-#events-container li a:hover {
-    text-decoration: underline;
+    width: 100%;
+    height: 500px;
+    margin: 20px auto;
+    border: 2px solid #0077cc;
+    border-radius: 10px;
 }
