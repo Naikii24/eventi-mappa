@@ -29,4 +29,43 @@
 
         // Funzione per ottenere i dati dal Google Sheets
         function fetchData() {
-            var sheet
+            var sheetID = '1sz5yRujumvBDYH6qGjKUhJ0Q2vBbQe1aZB4pUZg-oSE'; // ID del foglio di Google
+            var url = `https://spreadsheets.google.com/feeds/list/${sheetID}/od6/public/values?alt=json`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var entries = data.feed.entry;
+
+                    entries.forEach(entry => {
+                        var name = entry.gsx$nome.$t;         // Nome dell'evento
+                        var address = entry.gsx$indirizzo.$t; // Indirizzo
+                        var lat = parseFloat(entry.gsx$latitudine.$t);  // Latitudine
+                        var lon = parseFloat(entry.gsx$longitudine.$t); // Longitudine
+                        var description = entry.gsx$descrizione.$t; // Descrizione dell'evento
+                        var ticketLink = entry.gsx$linkbiglietti.$t; // Link per acquistare i biglietti
+                        var eventDate = entry.gsx$dataevento.$t; // Data evento
+
+                        // Crea il contenuto per il popup
+                        var popupContent = `
+                            <strong>${name}</strong><br>
+                            <em>${address}</em><br>
+                            <strong>Data evento:</strong> ${eventDate}<br>
+                            <strong>Descrizione:</strong> ${description}<br>
+                            <a href="${ticketLink}" target="_blank">Acquista i biglietti</a>
+                        `;
+                        
+                        // Aggiungi il marker per ogni evento
+                        var marker = L.marker([lat, lon]).addTo(map)
+                            .bindPopup(popupContent);
+                    });
+                })
+                .catch(error => console.error('Error fetching data: ', error));
+        }
+
+        // Carica i dati dal Google Sheets
+        fetchData();
+    </script>
+
+</body>
+</html>
