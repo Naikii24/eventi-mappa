@@ -3,21 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eventi Mappa</title>
+    <title>Eventi sulla Mappa</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="style.css">
+    <style>
+        #map {
+            width: 100%;
+            height: 500px;
+        }
+        #events-container {
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Sezione per la Mappa -->
-    <div id="map"></div>
 
-    <!-- Sezione laterale per gli eventi -->
-    <div id="event-list">
-        <h2>Eventi della Settimana</h2>
-        <ul id="events-container"></ul>
+    <h1>Eventi in Mappa</h1>
     <div id="map"></div>
+    <div id="events-container">
+        <h2>Eventi della Settimana</h2>
+        <ul id="events-list"></ul>
+    </div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+    <script>
+        // Inizializza la mappa
+        var map = L.map('map').setView([41.9028, 12.4964], 6); // Italia
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Funzione per caricare eventi da Google Sheets
+        fetch("https://docs.google.com/spreadsheets/d/1sz5yRujumvBDYH6qGjKUhJ0Q2vBbQe1aZB4pUZg-oSE/gviz/tq?tqx=out:json")
+            .
+
