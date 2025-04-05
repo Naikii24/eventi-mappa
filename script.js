@@ -1,10 +1,14 @@
+// Funzione per caricare i dati CSV
 function fetchData() {
-    var url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsC2LtvXVVBz1ffZqYpSXEUwb2z_27GF0zYLZkABhhcmBHQ8U0axgwoELKeUcGSAZhdWbKopHdvvnA/pub?output=csv';
+    var url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSsC2LtvXVVBz1ffZqYpSXEUwb2z_27GF0zYLZkABhhcmBHQ8U0axgwoELKeUcGSAZhdWbKopHdvvnA/pub?output=csv'; // Usa il tuo link qui
 
     fetch(url)
-        .then(response => response.text())
+        .then(response => response.text())  // Prendi il testo (CSV)
         .then(csvText => {
-            var data = csvToArray(csvText);
+            var data = csvToArray(csvText);  // Converte il CSV in un array di oggetti
+            console.log(data);  // Stampa i dati in console per il debug
+
+            // Cicla tra i dati per aggiungere i marker sulla mappa
             data.forEach(entry => {
                 var name = entry["Nome Evento"];
                 var address = entry["Indirizzo"];
@@ -23,7 +27,7 @@ function fetchData() {
                     <a href="${ticketLink}" target="_blank">Acquista i biglietti</a>
                 `;
                 
-                // Aggiungi il marker per ogni evento
+                // Aggiungi il marker alla mappa
                 var marker = L.marker([lat, lon]).addTo(map)
                     .bindPopup(popupContent);
             });
@@ -34,15 +38,16 @@ function fetchData() {
         });
 }
 
+// Funzione per convertire il CSV in un array di oggetti
 function csvToArray(csvText) {
-    var rows = csvText.split('\n');
-    var headers = rows[0].split(',');
+    var rows = csvText.split('\n');  // Dividi in righe
+    var headers = rows[0].split(','); // Ottieni le intestazioni (nomi delle colonne)
 
     return rows.slice(1).map(function(row) {
-        var values = row.split(',');
+        var values = row.split(',');  // Dividi ogni riga in colonne
         var obj = {};
         headers.forEach(function(header, i) {
-            obj[header.trim()] = values[i]?.trim(); // Aggiungi ? per evitare errori in caso di valori mancanti
+            obj[header.trim()] = values[i]?.trim();  // Crea un oggetto con le chiavi delle intestazioni
         });
         return obj;
     });
